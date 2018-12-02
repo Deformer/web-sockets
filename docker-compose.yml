@@ -9,6 +9,13 @@ nginx:
   ports:
    - "3000:80"
 
+emiter:
+  build: ./emiter
+  links:
+    - redis
+  expose:
+    - "3000"
+
 server-john:
   build: ./server
   links:
@@ -49,3 +56,5 @@ redis:
   image: redis:alpine
   expose:
     - "6379"
+  ports:
+    - 6379:6379
