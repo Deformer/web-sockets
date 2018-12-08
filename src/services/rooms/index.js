@@ -1,6 +1,8 @@
 const redis = require('redis');
 const { Room } = require('database-module/models');
 
+const { redis: { host, port } } = require('../../config');
+
 const createWSRoom = (io, roomId) => {
   const roomNamespace = io.of(`/${roomId}`);
 
@@ -9,7 +11,7 @@ const createWSRoom = (io, roomId) => {
   roomNamespace.on('connection', function (socket) {
 
     if (!sub) {
-      sub = redis.createClient({host: 'redis', port: 6379});
+      sub = redis.createClient({ host, port });
       sub.subscribe(`rooms/${roomId}`);
     }
 
@@ -30,8 +32,8 @@ const createWSRoom = (io, roomId) => {
   })
 };
 
-// const getRoomsList = () => Room.findAll();
-const getRoomsList = () => Promise.resolve([{ id:1 },{ id:2 },{ id:3 }]);
+const getRoomsList = () => Room.findAll();
+// const getRoomsList = () => Promise.resolve([{ id:1 },{ id:2 },{ id:3 }]);
 
 const initRooms = (io) => getRoomsList()
   .then((rooms) => rooms.reduce((dict, room) => {

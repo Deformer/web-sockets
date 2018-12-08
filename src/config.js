@@ -4,8 +4,8 @@ const dotenv = require('dotenv-safe');
 
 dotenv.load({
   allowEmptyValues: true,
-  path: path.join(__dirname, '.env'),
-  sample: path.join(__dirname, '.env.example'),
+  path: path.join(__dirname, '../.env'),
+  sample: path.join(__dirname, '../.env.example'),
 });
 
 const requireProcessEnv = (name) => {
@@ -20,11 +20,6 @@ const config = {
     env: process.env.NODE_ENV || 'development',
     root: path.join(__dirname, '..'),
     port: process.env.PORT || 9000,
-    ip: process.env.IP || '127.0.0.1',
-    apiRoot: process.env.API_ROOT || '/api',
-    session: {
-      secret: requireProcessEnv('SESSION_SECRET'),
-    },
     redis: {
       host: process.env.REDIS_HOST || 'localhost',
       port: process.env.REDIS_PORT || 6379,
