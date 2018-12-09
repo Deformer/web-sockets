@@ -9,7 +9,7 @@ const { port } = require('./config');
 
 let roomsSockets;
 
-server.listen(port, function () {
+server.listen(port, () => {
 
   initRooms(io)
     .then((rooms) => {
@@ -22,9 +22,6 @@ server.listen(port, function () {
 
   console.log('Server listening at port %d', port);
 });
-
-// Routing
-app.use(express.static(__dirname + '/public'));
 
 
 

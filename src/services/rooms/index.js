@@ -8,7 +8,7 @@ const createWSRoom = (io, roomId) => {
 
   let sub = null;
 
-  roomNamespace.on('connection', function (socket) {
+  roomNamespace.on('connection', (socket) => {
 
     if (!sub) {
       sub = redis.createClient({ host, port });
@@ -19,10 +19,7 @@ const createWSRoom = (io, roomId) => {
       let parsedMsg;
       try {
         parsedMsg = JSON.parse(msg);
-        socket.emit('new message', {
-          username: parsedMsg.user.name,
-          message: parsedMsg.text
-        });
+        socket.emit('new message', parsedMsg);
       } catch (e) {
         console.error(e);
       }
@@ -33,7 +30,6 @@ const createWSRoom = (io, roomId) => {
 };
 
 const getRoomsList = () => Room.findAll();
-// const getRoomsList = () => Promise.resolve([{ id:1 },{ id:2 },{ id:3 }]);
 
 const initRooms = (io) => getRoomsList()
   .then((rooms) => rooms.reduce((dict, room) => {
